@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evading Button</title>
+  <title>Unclickable Evading Button</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Custom smooth animation */
     .smooth-move {
       transition: all 0.3s ease;
     }
+
+    /* Ensure the button stays within the viewport */
+    #evadeButton {
+      position: absolute;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
-  <div class="relative">
+<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="relative w-full h-full">
     <button
       id="evadeButton"
       class="smooth-move bg-white text-purple-600 font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
@@ -25,7 +30,8 @@
   <script>
     const evadeButton = document.getElementById('evadeButton');
 
-    document.addEventListener('mousemove', (e) => {
+    // Function to move the button away from the cursor
+    const moveButtonAway = (e) => {
       const buttonRect = evadeButton.getBoundingClientRect();
       const buttonCenterX = buttonRect.left + buttonRect.width / 2;
       const buttonCenterY = buttonRect.top + buttonRect.height / 2;
@@ -42,11 +48,38 @@
         const moveX = (distanceX / distance) * 50; // Adjust the evasion speed
         const moveY = (distanceY / distance) * 50;
 
-        evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      } else {
-        evadeButton.style.transform = 'translate(0, 0)';
+        // Calculate new position
+        let newX = buttonRect.left + moveX;
+        let newY = buttonRect.top + moveY;
+
+        // Ensure the button stays within the viewport
+        newX = Math.max(0, Math.min(window.innerWidth - buttonRect.width, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - buttonRect.height, newY));
+
+        evadeButton.style.left = `${newX}px`;
+        evadeButton.style.top = `${newY}px`;
       }
-    });
+    };
+
+    // Move the button randomly on touch devices (mobile)
+    const moveButtonRandomly = () => {
+      const maxX = window.innerWidth - evadeButton.offsetWidth;
+      const maxY = window.innerHeight - evadeButton.offsetHeight;
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      evadeButton.style.left = `${randomX}px`;
+      evadeButton.style.top = `${randomY}px`;
+    };
+
+    // Event listeners
+    document.addEventListener('mousemove', moveButtonAway);
+    document.addEventListener('touchstart', moveButtonRandomly);
+
+    // Initialize button position
+    evadeButton.style.left = `${window.innerWidth / 2 - evadeButton.offsetWidth / 2}px`;
+    evadeButton.style.top = `${window.innerHeight / 2 - evadeButton.offsetHeight / 2}px`;
   </script>
 </body>
 </html>
