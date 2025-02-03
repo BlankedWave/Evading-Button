@@ -30,6 +30,12 @@
   <script>
     const evadeButton = document.getElementById('evadeButton');
 
+    // Function to center the button initially
+    const centerButton = () => {
+      evadeButton.style.left = `${window.innerWidth / 2 - evadeButton.offsetWidth / 2}px`;
+      evadeButton.style.top = `${window.innerHeight / 2 - evadeButton.offsetHeight / 2}px`;
+    };
+
     // Function to move the button away from the cursor
     const moveButtonAway = (e) => {
       const buttonRect = evadeButton.getBoundingClientRect();
@@ -77,9 +83,9 @@
     document.addEventListener('mousemove', moveButtonAway);
     document.addEventListener('touchstart', moveButtonRandomly);
 
-    // Initialize button position
-    evadeButton.style.left = `${window.innerWidth / 2 - evadeButton.offsetWidth / 2}px`;
-    evadeButton.style.top = `${window.innerHeight / 2 - evadeButton.offsetHeight / 2}px`;
+    // Center the button on page load and window resize
+    window.addEventListener('load', centerButton);
+    window.addEventListener('resize', centerButton);
   </script>
 </body>
 </html>
