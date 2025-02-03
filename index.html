@@ -39,8 +39,8 @@
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
       if (distance < 100) { // Adjust the distance threshold as needed
-        const moveX = -(distanceX / distance) * 500; // Negate to move away
-        const moveY = -(distanceY / distance) * 500;
+        const moveX = -(distanceX / distance) * 1900; // Negate to move away
+        const moveY = -(distanceY / distance) * 1000;
       
         evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
       } else {
