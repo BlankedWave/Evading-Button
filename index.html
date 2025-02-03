@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evading Button</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom smooth animation */
+    .smooth-move {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
+  <div class="relative">
+    <button
+      id="evadeButton"
+      class="smooth-move bg-white text-purple-600 font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+    >
+      Click Me
+    </button>
+  </div>
+
+  <script>
+    const evadeButton = document.getElementById('evadeButton');
+
+    document.addEventListener('mousemove', (e) => {
+      const buttonRect = evadeButton.getBoundingClientRect();
+      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      const distanceX = mouseX - buttonCenterX;
+      const distanceY = mouseY - buttonCenterY;
+
+      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+      if (distance < 100) { // Adjust the distance threshold as needed
+        const moveX = (distanceX / distance) * 50; // Adjust the evasion speed
+        const moveY = (distanceY / distance) * 50;
+
+        evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      } else {
+        evadeButton.style.transform = 'translate(0, 0)';
+      }
+    });
+  </script>
+</body>
+</html>
