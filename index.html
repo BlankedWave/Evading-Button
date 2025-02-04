@@ -19,7 +19,7 @@
       white-space: nowrap;
       transform: translateY(-50px);
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
   </style>
 </head>
@@ -78,7 +78,7 @@
 
       setTimeout(() => {
         bubbleChat.style.opacity = 0;
-      }, 2000); // Hide after 2 seconds
+      }, 2000);
     });
   </script>
 </body>
