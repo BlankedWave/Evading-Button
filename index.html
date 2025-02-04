@@ -60,8 +60,8 @@
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
       if (distance < 100) {
-        const moveX = -(distanceX / distance) * 1900;
-        const moveY = -(distanceY / distance) * 1000;
+        const moveX = -(distanceX / distance) * 800;
+        const moveY = -(distanceY / distance) * 800;
 
         evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
         bubbleChat.style.transform = `translate(${moveX}px, ${moveY - 50}px)`;
