@@ -66,9 +66,9 @@
 
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY); // Total distance
 
-      if (distance < 150) { // If the mouse is within 100px of the button
-        const moveX = -(distanceX / distance) * 250; // Move the button away horizontally
-        const moveY = -(distanceY / distance) * 250; // Move the button away vertically
+      if (distance < 130) { // If the mouse is within 100px of the button
+        const moveX = -(distanceX / distance) * 350; // Move the button away horizontally
+        const moveY = -(distanceY / distance) * 350; // Move the button away vertically
 
         // Apply the calculated movement to the button and bubble chat
         evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
