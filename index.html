@@ -6,9 +6,12 @@
   <title>Evading Button</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Smooth transition effect for button movements */
     .smooth-move {
       transition: all 0.3s ease;
     }
+
+    /* Bubble chat styling */
     .bubble-chat {
       position: absolute;
       background: white;
@@ -17,27 +20,30 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       font-size: 14px;
       white-space: nowrap;
-      transform: translateY(-50px);
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(-50px); /* Position above the button */
+      opacity: 0; /* Initially hidden */
+      transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth appearance/disappearance */
     }
   </style>
 </head>
 <body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
   <div class="relative">
+    <!-- Button that evades the mouse cursor -->
     <button
       id="evadeButton"
       class="smooth-move bg-white text-purple-600 font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
     >
       Click Me
     </button>
+    <!-- Bubble chat for displaying taunting messages -->
     <div id="bubbleChat" class="bubble-chat"></div>
   </div>
 
   <script>
-    const evadeButton = document.getElementById('evadeButton');
-    const bubbleChat = document.getElementById('bubbleChat');
+    const evadeButton = document.getElementById('evadeButton'); // Reference to the button
+    const bubbleChat = document.getElementById('bubbleChat');   // Reference to the bubble chat
 
+    // Array of taunting messages
     const taunts = [
       "You can never catch me! 😜",
       "Too slow! 🏃💨",
@@ -46,38 +52,42 @@
       "Catch me if you can! 😆"
     ];
 
+    // Event listener for mouse movement
     document.addEventListener('mousemove', (e) => {
-      const buttonRect = evadeButton.getBoundingClientRect();
-      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+      const buttonRect = evadeButton.getBoundingClientRect(); // Get button's position and size
+      const buttonCenterX = buttonRect.left + buttonRect.width / 2; // Button center X
+      const buttonCenterY = buttonRect.top + buttonRect.height / 2; // Button center Y
 
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
+      const mouseX = e.clientX; // Mouse X position
+      const mouseY = e.clientY; // Mouse Y position
 
-      const distanceX = mouseX - buttonCenterX;
-      const distanceY = mouseY - buttonCenterY;
+      const distanceX = mouseX - buttonCenterX; // Horizontal distance from mouse to button center
+      const distanceY = mouseY - buttonCenterY; // Vertical distance from mouse to button center
 
-      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY); // Total distance
 
-      if (distance < 100) {
-        const moveX = -(distanceX / distance) * 800;
-        const moveY = -(distanceY / distance) * 800;
+      if (distance < 80) { // If the mouse is within 100px of the button
+        const moveX = -(distanceX / distance) * 500; // Move the button away horizontally
+        const moveY = -(distanceY / distance) * 500; // Move the button away vertically
 
+        // Apply the calculated movement to the button and bubble chat
         evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        bubbleChat.style.transform = `translate(${moveX}px, ${moveY - 50}px)`;
+        bubbleChat.style.transform = `translate(${moveX}px, ${moveY - 50}px)`; // Bubble chat slightly above
       } else {
+        // Reset position if the mouse is far from the button
         evadeButton.style.transform = 'translate(0, 0)';
         bubbleChat.style.transform = 'translate(0, -50px)';
       }
     });
 
+    // Event listener for button click
     evadeButton.addEventListener('click', () => {
-      const randomTaunt = taunts[Math.floor(Math.random() * taunts.length)];
-      bubbleChat.textContent = randomTaunt;
-      bubbleChat.style.opacity = 1;
+      const randomTaunt = taunts[Math.floor(Math.random() * taunts.length)]; // Pick a random taunt
+      bubbleChat.textContent = randomTaunt; // Display the taunt
+      bubbleChat.style.opacity = 1; // Make the bubble chat visible
 
       setTimeout(() => {
-        bubbleChat.style.opacity = 0;
+        bubbleChat.style.opacity = 0; // Hide the bubble chat after 2 seconds
       }, 2000);
     });
   </script>
