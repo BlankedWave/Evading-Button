@@ -6,9 +6,20 @@
   <title>Evading Button</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Custom smooth animation */
     .smooth-move {
       transition: all 0.3s ease;
+    }
+    .bubble-chat {
+      position: absolute;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+      white-space: nowrap;
+      transform: translateY(-50px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
   </style>
 </head>
@@ -20,10 +31,20 @@
     >
       Click Me
     </button>
+    <div id="bubbleChat" class="bubble-chat"></div>
   </div>
 
   <script>
     const evadeButton = document.getElementById('evadeButton');
+    const bubbleChat = document.getElementById('bubbleChat');
+
+    const taunts = [
+      "You can never catch me! 😜",
+      "Too slow! 🏃💨",
+      "Nice try! 😏",
+      "Missed me again! 🤭",
+      "Catch me if you can! 😆"
+    ];
 
     document.addEventListener('mousemove', (e) => {
       const buttonRect = evadeButton.getBoundingClientRect();
@@ -38,14 +59,26 @@
 
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-      if (distance < 100) { // Adjust the distance threshold as needed
-        const moveX = -(distanceX / distance) * 1900; // Negate to move away
+      if (distance < 100) {
+        const moveX = -(distanceX / distance) * 1900;
         const moveY = -(distanceY / distance) * 1000;
-      
+
         evadeButton.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        bubbleChat.style.transform = `translate(${moveX}px, ${moveY - 50}px)`;
       } else {
         evadeButton.style.transform = 'translate(0, 0)';
+        bubbleChat.style.transform = 'translate(0, -50px)';
       }
+    });
+
+    evadeButton.addEventListener('click', () => {
+      const randomTaunt = taunts[Math.floor(Math.random() * taunts.length)];
+      bubbleChat.textContent = randomTaunt;
+      bubbleChat.style.opacity = 1;
+
+      setTimeout(() => {
+        bubbleChat.style.opacity = 0;
+      }, 2000); // Hide after 2 seconds
     });
   </script>
 </body>
