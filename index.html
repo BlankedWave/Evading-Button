@@ -66,7 +66,7 @@
 
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY); // Total distance
 
-      if (distance < 30) { // If the mouse is within 100px of the button
+      if (distance < 150) { // If the mouse is within 100px of the button
         const moveX = -(distanceX / distance) * 250; // Move the button away horizontally
         const moveY = -(distanceY / distance) * 250; // Move the button away vertically
 
